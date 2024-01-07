@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/me', [AuthController::class, 'getUser']);
         Route::get('/refresh', [AuthController::class, 'refreshToken']);
         Route::get('/logout', [AuthController::class, 'logout']);
+
+        Route::apiResource("products", ProductsController::class);
     });
 });
