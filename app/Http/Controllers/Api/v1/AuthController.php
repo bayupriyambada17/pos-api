@@ -61,7 +61,6 @@ class AuthController extends Controller
 
     public function getUser()
     {
-        //response data "user" yang sedang login
         return response()->json([
             'success' => true,
             'user'    => auth()->guard('pos')->user()
@@ -76,16 +75,12 @@ class AuthController extends Controller
      */
     public function refreshToken(Request $request)
     {
-        //refresh "token"
         $refreshToken = JWTAuth::refresh(JWTAuth::getToken());
 
-        //set user dengan "token" baru
         $user = JWTAuth::setToken($refreshToken)->toUser();
 
-        //set header "Authorization" dengan type Bearer + "token" baru
         $request->headers->set('Authorization', 'Bearer ' . $refreshToken);
 
-        //response data "user" dengan "token" baru
         return response()->json([
             'success' => true,
             'user'    => $user,
@@ -100,10 +95,8 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        //remove "token" JWT
         $removeToken = JWTAuth::invalidate(JWTAuth::getToken());
 
-        //response "success" logout
         return response()->json([
             'success' => true,
         ], 200);
