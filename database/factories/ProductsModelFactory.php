@@ -19,10 +19,10 @@ class ProductsModelFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->text,
-            'price' => $this->faker->numberBetween(1, 1000),
+            'price' => $this->faker->numberBetween(1, 1000000),
             'stock' => $this->faker->numberBetween(10, 1000),
-            'category' => $this->faker->randomElement(['makanan', 'minuman', 'snack']),
-            'image' => $this->faker->imageUrl(),
+            'category' => $this->faker->randomElement(['food', 'drink', 'snack']),
+            // 'image' => ,
         ];
     }
 }

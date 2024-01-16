@@ -16,7 +16,11 @@ class ProductsController extends Controller
         $name = request()->input('name');
         $getProducts = ProductsModel::where('name', 'LIKE', '%' . $name . '%')
             ->orderBy("created_at", 'desc')->get();
-        return response()->json($getProducts);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Mengambil semua data produk',
+            'data' => $getProducts
+        ], 200);
     }
 
     public function show($id)
@@ -29,28 +33,39 @@ class ProductsController extends Controller
         $validation = Validator::make($request->all(), [
             'name' => 'required|min:1',
             'description' => 'nullable',
-            'category' => 'required|in:makanan,minuman,snack',
+            'category' => 'required|in:food,drink,snack',
             'stock' => 'required|integer',
             'price' => 'required|integer',
             'image' => 'required',
+
         ]);
 
         $imageFile = $request->file('image');
         $image = time() . str_replace(" ", "", $imageFile->hashName());
         $imageFile->storeAs('files/image', $image, 'public');
 
-        ProductsModel::create([
+        $product = ProductsModel::create([
             'name' => $request->name,
             'description' => $request->description,
             'category' => $request->category,
             'stock' => $request->stock,
             'price' => $request->price,
             'image' => $image,
+            'is_best_seller' => $request->is_best_seller,
         ]);
 
-        return response()->json([
-            'message' => 'Data berhasil ditambahkan'
-        ], 201);
+        if ($product) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data produk berhasil ditambahkan',
+                'data' => $product
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data produk gagal ditambahkan',
+            ], 400);
+        }
     }
 
     public function update(Request $request, $id)
@@ -58,7 +73,7 @@ class ProductsController extends Controller
         $validation = Validator::make($request->all(), [
             'name' => 'required|min:1',
             'description' => 'nullable',
-            'category' => 'required|in:makanan,minuman,snack',
+            'category' => 'required|in:food,drink,snack',
             'stock' => 'required|integer',
             'price' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -90,6 +105,7 @@ class ProductsController extends Controller
                 'stock' => $request->stock,
                 'price' => $request->price,
                 'image' => $image,
+                'is_best_seller' => $request->is_best_seller,
             ]);
 
             return response()->json(['message' => 'Product updated successfully'], 200);
@@ -101,6 +117,7 @@ class ProductsController extends Controller
             'category' => $request->category,
             'stock' => $request->stock,
             'price' => $request->price,
+            'is_best_seller' => $request->is_best_seller,
         ]);
 
         return response()->json(['message' => 'Product updated successfully'], 200);

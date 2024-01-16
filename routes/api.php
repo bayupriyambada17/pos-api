@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:pos'])->group(function () {
         Route::get('/me', [AuthController::class, 'getUser']);
         Route::get('/refresh', [AuthController::class, 'refreshToken']);
-        Route::get('/logout', [AuthController::class, 'logout']);
+        Route::post('/logout', [AuthController::class, 'logout']);
 
         Route::apiResource("products", ProductsController::class);
     });

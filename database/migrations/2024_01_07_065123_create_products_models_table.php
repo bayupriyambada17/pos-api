@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->integer('price')->default(0);
             $table->integer('stock')->default(0);
-            $table->enum('category', ['makanan', 'minuman', 'snack']);
+            $table->enum('category', ['food', 'drink', 'snack']);
             $table->string('image')->nullable();
             $table->timestamps();
         });

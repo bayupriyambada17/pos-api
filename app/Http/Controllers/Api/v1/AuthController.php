@@ -25,16 +25,14 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (!$token = auth()->guard('pos')->attempt($credentials)) {
+        if (!$token = auth()->guard('pos')->setTTL('100000000000')->attempt($credentials)) {
 
             return response()->json([
-                'success' => false,
                 'message' => 'Email or Password is incorrect'
             ], 401);
         }
 
         return response()->json([
-            'success' => true,
             'user'    => auth()->guard('pos')->user(),
             'token'   => $token
         ], 200);

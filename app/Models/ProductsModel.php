@@ -14,10 +14,10 @@ class ProductsModel extends Model
     protected $table = 'products';
     protected $guarded = ['id'];
 
-    public function image(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value ? asset("storage/files/image/" . $value) : "",
-        );
-    }
+    // public function image(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($value) => $value ? asset("storage/files/image/" . $value) : "",
+    //     );
+    // }
 }
